@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.book.mapper.UserMapper">
+
+	<insert id="addSingleUser" parameterType="User">
+		<selectKey keyProperty="user_Id" order="BEFORE" resultType="String">
+			select uuid() FROM DUAL
+		</selectKey>
+		insert into user (user_id,user_name,user_iden) values(#{user_Id},#{user_Name},#{user_Iden})
+	</insert>
+	
+	<delete id="deleteUserById" parameterType="int">
+		delete from user where user_id = #{id}
+	</delete>
+	
+	<update id="updateUserById" parameterType="User">
+		update user set user_name = #{user_Name},user_pwd = #{user_Pwd} where user_id = #{user_Id}
+	</update>
+	
+	<select id="listGetAll" resultType="User">
+		select * from USER
+	</select>
+	
+	<select id="getUserByid" parameterType="int" resultType="User">
+		select * from user where user_id = #{user_Id}
+	</select>
+	
+	<select id="getUserByNameAndPwd" parameterType="User" resultType="user">
+		select * from user where user_name = #{user_Name} and user_pwd = #{user_Pwd}
+	</select>
+	
+</mapper>
